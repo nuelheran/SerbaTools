@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SerbaTools — Tools Gratis Serbaguna | Free Everyday Tools</title>
+  <meta name="description" content="Kumpulan tools online gratis: word counter, password generator, QR code, konverter satuan, kalkulator split bill, BMI, usia, cicilan, pomodoro timer, dan lainnya. Free online tools — no signup, works in your browser." />
+  <meta property="og:title" content="SerbaTools — Tools Gratis Serbaguna" />
+  <meta property="og:description" content="12 tools gratis dalam satu situs. Semua diproses di browser Anda, tanpa daftar akun." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --accent: #ff5d6c;
+      --accent-deep: #be1e2d;
+      --ink: #f4f6fb;
+      --ink-soft: rgba(235, 240, 255, 0.68);
+      --glass: rgba(255, 255, 255, 0.12);
+      --glass-strong: rgba(255, 255, 255, 0.2);
+      --glass-line: rgba(255, 255, 255, 0.3);
+      --radius: 20px;
+      --shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+      color-scheme: dark;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Inter", system-ui, sans-serif;
+      color: var(--ink);
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      background:
+        radial-gradient(640px circle at 85% -5%, rgba(190, 30, 45, 0.5), transparent 65%),
+        radial-gradient(720px circle at -10% 108%, rgba(88, 101, 242, 0.45), transparent 65%),
+        radial-gradient(520px circle at 55% 45%, rgba(255, 255, 255, 0.07), transparent 60%),
+        linear-gradient(160deg, #141e30 0%, #1e1b38 50%, #2b1224 100%);
+      background-attachment: fixed;
+    }
+    .shell { max-width: 1080px; margin: 0 auto; padding: 0 20px 60px; }
+
+    /* --- Liquid glass recipe --- */
+    .support-strip, .panel, .tool-card, .stat, .lang-toggle,
+    .search-wrap input, .back-btn, .timer-modes button, .toast, .result {
+      background: var(--glass);
+      backdrop-filter: blur(14px) saturate(1.5);
+      -webkit-backdrop-filter: blur(14px) saturate(1.5);
+      border: 1px solid var(--glass-line);
+      box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.18),
+        inset 0 1px 0 rgba(255, 255, 255, 0.45),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.08);
+    }
+    .panel, .tool-card {
+      position: relative; overflow: hidden;
+      box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.18),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.1),
+        inset 0 0 10px 5px rgba(255, 255, 255, 0.06);
+    }
+    .panel::before, .tool-card::before {
+      content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+      pointer-events: none;
+    }
+    .panel::after, .tool-card::after {
+      content: ""; position: absolute; top: 0; left: 0; width: 1px; height: 100%;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.8), transparent, rgba(255, 255, 255, 0.3));
+      pointer-events: none;
+    }
+
+    /* Support strip */
+    .support-strip {
+      border-radius: 0 0 var(--radius) var(--radius); border-top: 0;
+      padding: 14px 22px; display: flex; flex-wrap: wrap; gap: 12px;
+      align-items: center; justify-content: space-between;
+    }
+    .support-strip p { font-size: .88rem; color: var(--ink-soft); }
+    .support-strip .label {
+      display: inline-block; font-size: .72rem; font-weight: 700;
+      letter-spacing: .08em; text-transform: uppercase; color: #ffb4bc;
+      margin-bottom: 2px;
+    }
+
+    /* Header / hero */
+    .topbar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 22px 0 6px; gap: 12px; flex-wrap: wrap;
+    }
+    .brand { font-size: 1.25rem; font-weight: 800; letter-spacing: -.02em; cursor: pointer; text-shadow: 0 2px 12px rgba(0,0,0,.35); }
+    .brand span { color: var(--accent); }
+    .lang-toggle { display: flex; border-radius: 999px; overflow: hidden; }
+    .lang-toggle button {
+      border: 0; background: transparent; padding: 7px 16px; font: inherit;
+      font-size: .82rem; font-weight: 600; color: var(--ink-soft); cursor: pointer;
+    }
+    .lang-toggle button.active {
+      background: linear-gradient(135deg, var(--accent), var(--accent-deep));
+      color: #fff; box-shadow: inset 0 1px 0 rgba(255,255,255,.4);
+    }
+
+    .hero { text-align: center; padding: 34px 0 10px; }
+    .hero .eyebrow {
+      display: inline-block; background: rgba(255, 93, 108, 0.16); color: #ffb4bc;
+      border: 1px solid rgba(255, 140, 152, 0.4);
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      font-size: .78rem; font-weight: 700; padding: 6px 14px; border-radius: 999px;
+      margin-bottom: 14px; box-shadow: inset 0 1px 0 rgba(255,255,255,.3);
+    }
+    .hero h1 { font-size: clamp(1.7rem, 4.5vw, 2.6rem); font-weight: 800; letter-spacing: -.03em; text-shadow: 0 2px 18px rgba(0,0,0,.35); }
+    .hero h1 em { color: var(--accent); font-style: normal; }
+    .hero p { max-width: 560px; margin: 12px auto 0; color: var(--ink-soft); }
+    .search-wrap { max-width: 460px; margin: 24px auto 0; position: relative; }
+    .search-wrap input[type="text"] {
+      width: 100%; padding: 13px 18px 13px 44px !important;
+      border-radius: 999px; font: inherit; font-size: .95rem; color: var(--ink);
+      outline: none; transition: border-color .15s, box-shadow .15s;
+    }
+    .search-wrap input::placeholder { color: rgba(235, 240, 255, 0.45); }
+    .search-wrap input:focus {
+      border-color: rgba(255, 120, 135, 0.8);
+      box-shadow: 0 0 0 3px rgba(255, 93, 108, 0.25), inset 0 1px 0 rgba(255,255,255,.45);
+    }
+    .search-wrap::before {
+      content: "🔍"; position: absolute; left: 16px; top: 50%;
+      transform: translateY(-50%); font-size: .9rem; opacity: .7; z-index: 1;
+    }
+
+    /* Tool grid */
+    .grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 16px; margin-top: 34px;
+    }
+    .tool-card {
+      border-radius: var(--radius);
+      padding: 20px; cursor: pointer; text-align: left; font: inherit; color: var(--ink);
+      transition: transform .18s ease, background .18s ease, border-color .18s ease;
+    }
+    .tool-card:hover {
+      transform: translateY(-4px); background: var(--glass-strong);
+      border-color: rgba(255, 140, 152, 0.6);
+    }
+    .tool-card .icon { font-size: 1.5rem; filter: drop-shadow(0 2px 6px rgba(0,0,0,.3)); }
+    .tool-card h3 { font-size: 1rem; margin: 10px 0 4px; font-weight: 700; }
+    .tool-card p { font-size: .82rem; color: var(--ink-soft); }
+
+    /* Tool view */
+    .tool-view { display: none; margin-top: 26px; }
+    .tool-view.active { display: block; }
+    .back-btn {
+      border-radius: 999px;
+      padding: 8px 18px; font: inherit; font-size: .85rem; font-weight: 600;
+      color: var(--ink-soft); cursor: pointer; margin-bottom: 18px;
+    }
+    .back-btn:hover { border-color: rgba(255, 140, 152, 0.7); color: #ffb4bc; }
+    .panel { border-radius: var(--radius); padding: 26px; }
+    .panel h2 { font-size: 1.3rem; font-weight: 800; margin-bottom: 4px; }
+    .panel .sub { color: var(--ink-soft); font-size: .9rem; margin-bottom: 20px; }
+
+    label.field { display: block; margin-bottom: 14px; font-size: .85rem; font-weight: 600; }
+    label.field > span { display: block; margin-bottom: 6px; }
+    input[type="text"], input[type="number"], input[type="date"], textarea, select {
+      width: 100%; padding: 11px 14px; border-radius: 12px;
+      font: inherit; font-size: .93rem; color: var(--ink); outline: none;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18);
+      transition: border-color .15s, box-shadow .15s;
+    }
+    input::placeholder, textarea::placeholder { color: rgba(235, 240, 255, 0.45); }
+    input:focus, textarea:focus, select:focus {
+      border-color: rgba(255, 120, 135, 0.8);
+      box-shadow: 0 0 0 3px rgba(255, 93, 108, 0.22), inset 0 1px 0 rgba(255,255,255,.2);
+    }
+    select option { background: #232742; color: #f4f6fb; }
+    textarea { resize: vertical; }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .row-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    @media (max-width: 560px) { .row, .row-3 { grid-template-columns: 1fr; } }
+
+    .btn {
+      background: linear-gradient(135deg, var(--accent), var(--accent-deep));
+      color: #fff; border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 12px;
+      padding: 11px 22px; font: inherit; font-size: .9rem; font-weight: 700;
+      cursor: pointer; transition: filter .15s, transform .15s;
+      box-shadow: 0 6px 20px rgba(190, 30, 45, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.45);
+    }
+    .btn:hover { filter: brightness(1.1); transform: translateY(-1px); }
+    .btn.ghost {
+      background: rgba(255, 255, 255, 0.1); color: var(--ink-soft);
+      border: 1px solid rgba(255, 255, 255, 0.25); font-weight: 600;
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    }
+    .btn.ghost:hover { color: #ffb4bc; border-color: rgba(255, 140, 152, 0.7); filter: none; transform: none; }
+    .btn-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 6px; }
+
+    .result {
+      margin-top: 18px; border-radius: 14px;
+      background: rgba(255, 93, 108, 0.14);
+      border: 1px solid rgba(255, 140, 152, 0.4);
+      padding: 16px 18px; font-size: .95rem; display: none;
+    }
+    .result.show { display: block; }
+    .result strong { font-size: 1.25rem; color: #ffc9cf; }
+    .stat-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 12px; margin-top: 16px;
+    }
+    .stat { border-radius: 14px; padding: 14px; text-align: center; }
+    .stat b { display: block; font-size: 1.35rem; color: #ff8a96; }
+    .stat span { font-size: .76rem; color: var(--ink-soft); font-weight: 600; }
+
+    .range-wrap { display: flex; align-items: center; gap: 14px; }
+    input[type="range"] { flex: 1; accent-color: var(--accent); }
+    .checks { display: flex; flex-wrap: wrap; gap: 14px; margin: 10px 0 16px; font-size: .88rem; }
+    .checks label { display: flex; align-items: center; gap: 6px; cursor: pointer; }
+    .checks input { accent-color: var(--accent); width: auto; }
+
+    .pw-out { display: flex; gap: 10px; margin-top: 14px; }
+    .pw-out input { font-family: monospace; font-size: 1rem; }
+    .strength { height: 6px; border-radius: 99px; background: rgba(255, 255, 255, 0.18); margin-top: 10px; overflow: hidden; }
+    .strength i { display: block; height: 100%; width: 0; background: var(--accent); transition: width .2s, background .2s; }
+
+    #qrBox { display: flex; justify-content: center; margin-top: 18px; }
+    #qrBox img, #qrBox canvas { border: 10px solid #fff; border-radius: 10px; box-shadow: var(--shadow); background: #fff; }
+
+    .timer-display {
+      font-size: clamp(3rem, 12vw, 5rem); font-weight: 800; text-align: center;
+      letter-spacing: .02em; margin: 10px 0; font-variant-numeric: tabular-nums;
+      text-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+    }
+    .timer-modes { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+    .timer-modes button {
+      border-radius: 999px; padding: 7px 16px; font: inherit;
+      font-size: .82rem; font-weight: 600; cursor: pointer; color: var(--ink-soft);
+    }
+    .timer-modes button.active {
+      background: linear-gradient(135deg, var(--accent), var(--accent-deep));
+      border-color: rgba(255, 255, 255, 0.35); color: #fff;
+      box-shadow: 0 4px 14px rgba(190, 30, 45, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    }
+    .timer-controls { display: flex; justify-content: center; gap: 10px; }
+
+    .picker-result {
+      text-align: center; font-size: 1.5rem; font-weight: 800; color: #ff8a96;
+      margin-top: 16px; min-height: 2.2rem; text-shadow: 0 2px 16px rgba(190, 30, 45, 0.5);
+    }
+
+    .site-footer {
+      text-align: center; color: var(--ink-soft); font-size: .84rem;
+      margin-top: 50px; padding-top: 26px; border-top: 1px solid rgba(255, 255, 255, 0.16);
+    }
+    .site-footer a { color: #ff8a96; font-weight: 600; }
+
+    .toast {
+      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px);
+      background: rgba(20, 24, 40, 0.72); color: #fff; padding: 10px 22px; border-radius: 999px;
+      font-size: .85rem; font-weight: 600; opacity: 0; transition: all .25s ease; z-index: 99;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  </style>
+</head>
+<body>
+  <div class="shell">
+
+    <section class="support-strip" aria-label="Dukungan kreator">
+      <div>
+        <span class="label" data-id="Dukung kreator" data-en="Support the creator">Dukung kreator</span>
+        <p data-id="Jika tools ini membantu, Anda bisa memberikan dukungan sukarela lewat Trakteer."
+           data-en="If these tools help you, consider a voluntary tip via Trakteer.">
+          Jika tools ini membantu, Anda bisa memberikan dukungan sukarela lewat Trakteer.</p>
+      </div>
+      <div>
+        <script type="text/javascript" src="https://edge-cdn.trakteer.id/js/embed/trbtn.min.js?v=14-05-2025"></script>
+        <script type="text/javascript">
+          (function () {
+            var trbtnId = trbtn.init(
+              "Traktir saya kopi",
+              "#be1e2d",
+              "https://trakteer.id/manuelnicholas",
+              "https://trakteer.id/images/mix/coffee.png",
+              "40"
+            );
+            trbtn.draw(trbtnId);
+          })();
+        </script>
+      </div>
+    </section>
+
+    <div class="topbar">
+      <div class="brand" id="brandHome">Serba<span>Tools</span></div>
+      <div class="lang-toggle" role="group" aria-label="Language">
+        <button id="langId" class="active" type="button">ID</button>
+        <button id="langEn" type="button">EN</button>
+      </div>
+    </div>
+
+    <!-- HOME -->
+    <div id="homeView">
+      <header class="hero">
+        <span class="eyebrow" data-id="✦ 12 tools gratis, tanpa daftar akun" data-en="✦ 12 free tools, no signup needed">✦ 12 tools gratis, tanpa daftar akun</span>
+        <h1 data-id-html="Semua tools harian Anda,<br /><em>dalam satu tempat.</em>"
+            data-en-html="All your everyday tools,<br /><em>in one place.</em>">
+          Semua tools harian Anda,<br /><em>dalam satu tempat.</em></h1>
+        <p data-id="Gratis, cepat, dan privat — semua proses terjadi di browser Anda. Tidak ada data yang dikirim ke server manapun."
+           data-en="Free, fast, and private — everything runs in your browser. No data is ever sent to any server.">
+          Gratis, cepat, dan privat — semua proses terjadi di browser Anda. Tidak ada data yang dikirim ke server manapun.</p>
+        <div class="search-wrap">
+          <input id="searchInput" type="text" data-ph-id="Cari tool… misal: password, QR, BMI" data-ph-en="Search tools… e.g. password, QR, BMI" placeholder="Cari tool… misal: password, QR, BMI" />
+        </div>
+      </header>
+      <div class="grid" id="toolGrid"></div>
+    </div>
+
+    <!-- TOOL VIEWS -->
+    <div id="toolViews">
+
+      <section class="tool-view" id="view-counter">
+        <button class="back-btn" data-id="← Kembali" data-en="← Back">← Kembali</button>
+        <div class="panel">
+          <h2 data-id="Penghitung Kata &amp; Karakter" data-en="Word &amp; Character Counter">Penghitung Kata &amp; Karakter</h2>
+          <p class="sub" data-id="Tempel teks Anda, statistik muncul otomatis." data-en="Paste your text — stats update automatically.">Tempel teks Anda, statistik muncul otomatis.</p>
+          <textarea id="counterText" rows="8" data-ph-id="Ketik atau tempel teks di sini…" data-ph-en="Type or paste text here…" placeholder="Ketik atau tempel teks di sini…"></textarea>
+          <div class="stat-grid">
+            <div class="stat"><b id="cWords">0</b><span data-id="Kata" data-en="Words">Kata</span></div>
+            <div class="stat"><b id="cChars">0</b><span data-id="Karakter" data-en="Characters">Karakter</span></div>
+            <div class="stat"><b id="cCharsNs">0</b><span data-id="Tanpa spasi" data-en="No spaces">Tanpa spasi</span></div>
+            <div class="stat"><b id="cSent">0</b><span data-id="Kalimat" data-en="Sentences">Kalimat</span></div>
+            <div class="stat"><b id="cPara">0</b><span data-id="Paragraf" data-en="Paragraphs">Paragraf</span></div>
+            <div class="stat"><b id="cRead">0</b><span data-id="Menit baca" data-en="Min. read">Menit baca</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="tool-view" id="view-case">
+        <button class="back-btn" data-id="← Kembali" data-en="← Back">← Kembali</button>
+        <div class="panel">
+          <h2 data-id="Pengubah Huruf (Case Converter)" data-en="Case Converter">Pengubah Huruf (Case Converter)</h2>
+          <p class="sub" data-id="Ubah teks ke UPPERCASE, lowercase, Title Case, dan lainnya." data-en="Convert text to UPPERCASE, lowercase, Title Case, and more.">Ubah teks ke UPPERCASE, lowercase, Title Case, dan lainnya.</p>
+          <textarea id="caseText" rows="6" data-ph-id="Ketik atau tempel teks di sini…" data-ph-en="Type or paste text here…" placeholder="Ketik atau tempel teks di sini…"></textarea>
+          <div class="btn-row" style="margin-top:14px">
+            <button class="btn ghost" data-case="upper">UPPERCASE</button>
+            <button class="btn ghost" data-case="lower">lowercase</button>
+            <button class="btn ghost" data-case="title">Title Case</button>
+            <button class="btn ghost" data-case="sentence" data-id="Kalimat biasa" data-en="Sentence case">Kalimat biasa</button>
+            <button class="btn ghost" data-case="camel">camelCase</button>
+            <button class="btn ghost" data-case="snake">snake_case</button>
+            <button class="btn ghost" data-case="kebab">kebab-case</button>
+            <button class="btn" id="caseCopy" data-id="Salin hasil" data-en="Copy result">Salin hasil</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="tool-view" id="view-password">
+        <button class="back-btn" data-id="← Kembali" data-en="← Back">← Kembali</button>
+        <div class="panel">
+          <h2 data-id="Generator Password" data-en="Password Generator">Generator Password</h2>
+          <p class="sub" data-id="Buat password acak yang kuat. Dibuat di perangkat Anda, tidak dikirim ke manapun." data-en="Generate strong random passwords. Created on your device, never sent anywhere.">Buat password acak yang kuat. Dibuat di perangkat Anda, tidak dikirim ke manapun.</p>
+          <label class="field">
+            <span><span data-id="Panjang" data-en="Length">Panjang</span>: <b id="pwLenLabel">16</b></span>
+            <div class="range-wrap"><input type="range" id="pwLen" min="6" max="64" value="16" /></div>
+          </label>
+          <div class="checks">
+            <label><input type="checkbox" id="pwUpper" checked /> ABC</label>
+            <label><input type="checkbox" id="pwLower" checked /> abc</label>
+            <label><input type="checkbox" id="pwDigit" checked /> 123</label>
+            <label><input type="checkbox" id="pwSymbol" checked /> !@#</label>
+          </div>
+          <div class="btn-row">
+            <button class="btn" id="pwGen" data-id="Buat password" data-en="Generate">Buat password</button>
+            <button class="btn ghost" id="pwCopy" data-id="Salin" data-en="Copy">Salin</button>
+          </div>
+          <div class="pw-out"><input type="text" id="pwOut" readonly /></div>
+          <div class="strength"><i id="pwBar"></i></div>
+        </div>
+      </section>
+
+      <section class="tool-view" id="view-qr">
+        <button class="back-btn" data-id="← Kembali" data-en="← Back">← Kembali</button>
+        <div class="panel">
+          <h2 data-id="Generator QR Code" data-en="QR Code Generator">Generator QR Code</h2>
+          <p class="sub" data-id="Ubah link atau teks menjadi QR code, lalu unduh sebagai gambar." data-en="Turn any link or text into a QR code, then download it as an image.">Ubah link atau teks menjadi QR code, lalu unduh sebagai gambar.</p>
+          <label class="field">
+            <span data-id="Teks / URL" data-en="Text / URL">Teks / URL</span>
+            <input type="text" id="qrText" data-ph-id="https://contoh.com atau teks apa pun" data-ph-en="https://example.com or any text" placeholder="https://contoh.com atau teks apa pun" />
+          </label>
+          <div class="btn-row">
+            <button class="btn" id="qrGen" data-id="Buat QR" data-en="Generate QR">Buat QR</button>
+            <button class="btn ghost" id="qrDownload" data-id="Unduh PNG" data-en="Download PNG">Unduh PNG</button>
+          </div>
+          <div id="qrBox"></div>
+        </div>
+      </section>
+
+      <section class="tool-view" id="view-unit">
+        <button class="back-btn" data-id="← Kembali" data-en="← Back">← Kembali</button>
+        <div class="panel">
+          <h2 data-id="Konverter Satuan" data-en="Unit Converter">Konverter Satuan</h2>
+          <p class="sub" data-id="Panjang, berat, suhu, dan ukuran data." data-en="Length, weight, temperature, and data size.">Panjang, berat, suhu, dan ukuran data.</p>
+          <div class="row-3">
+            <label class="field"><span data-id="Kategori" data-en="Category">Kategori</span>
+              <select id="unitCat"></select></label>
+            <label class="field"><span data-id="Dari" data-en="From">Dari</span>
+              <select id="unitFrom"></select></label>
+            <label class="field"><span data-id="Ke" data-en="To">Ke</span>
+              <select id="unitTo"></select></label>
+          </div>
+          <label class="field"><span data-id="Nilai" data-en="Value">Nilai</span>
+            <input type="number" id="unitVal" value="1" step="any" /></label>
+          <div class="result show" id="unitResult">—</div>
+        </div>
+      </section>
+
+      <section class="tool-view" id="view-percent">
+        <button class="back-btn" data-id="← Kembali" data-en="← Back">← Kembali</button>
+        <div class="panel">
+          <h2 data-id="Kalkulator Persen &amp; Diskon" data-en="Percentage &amp; Discount Calculator">Kalkulator Persen &amp; Diskon</h2>
+          <p class="sub" data-id="Hitung persentase dan harga setelah diskon dengan cepat." data-en="Quickly calculate percentages and discounted prices.">Hitung persentase dan harga setelah diskon dengan cepat.</p>
+          <label class="field"><span data-id="Mode" data-en="Mode">Mode</span>
+            <select id="pcMode">
+              <option value="of" data-id="Berapa X% dari Y?" data-en="What is X% of Y?">Berapa X% dari Y?</option>
+              <option value="what" data-id="X itu berapa % dari Y?" data-en="X is what % of Y?">X itu berapa % dari Y?</option>
+              <option value="disc" data-id="Harga setelah diskon" data-en="Price after discount">Harga setelah diskon</option>
+            </select></label>
+          <div class="row">
+            <label class="field"><span id="pcLabelA">X</span><input type="number" id="pcA" step="any" /></label>
+            <label class="field"><span id="pcLabelB">Y</span><input type="number" id="pcB" step="any" /></label>
+          </div>
+          <button class="btn" id="pcCalc" data-id="Hitung" data-en="Calculate">Hitung</button>
+          <div class="result" id="pcResult"></div>
+        </div>
+      </section>
+
+      <section class="tool-view" id="view-splitbill">
+        <button class="back-btn" data-id="← Kembali" data-en="← Back">← Kembali</button>
+        <div class="panel">
+          <h2 data-id="Split Bill" data-en="Split Bill">Split Bill</h2>
+          <p class="sub" data-id="Bagi tagihan makan bersama teman, termasuk pajak dan service charge." data-en="Split the bill with friends, including tax and service charge.">Bagi tagihan makan bersama teman, termasuk pajak dan service charge.</p>
+          <div class="row">
+            <label class="field"><span data-id="Total tagihan (sebelum pajak)" data-en="Bill total (before tax)">Total tagihan (sebelum pajak)</span>
+              <input type="number" id="sbTotal" step="any" placeholder="250000" /></label>
+            <label class="field"><span data-id="Jumlah orang" data-en="Number of people">Jumlah orang</span>
+              <input type="number" id="sbPeople" value="2" min="1" /></label>
+          </div>
+          <div class="row">
+            <label class="field"><span data-id="Pajak %" data-en="Tax %">Pajak %</span>
+              <input type="number" id="sbTax" value="11" step="any" /></label>
+            <label class="field"><span data-id="Service / tip %" data-en="Service / tip %">Service / tip %</span>
+              <input type="number" id="sbTip" value="0" step="any" /></label>
+          </div>
+          <button class="btn" id="sbCalc" data-id="Hitung" data-en="Calculate">Hitung</button>
+          <div class="result" id="sbResult"></div>
+        </div>
+      </section>
+
+      <section class="tool-view" id="view-bmi">
+        <button class="back-btn" data-id="← Kembali" data-en="← Back">← Kembali</button>
+        <div class="panel">
+          <h2 data-id="Kalkulator BMI" data-en="BMI Calculator">Kalkulator BMI</h2>
+          <p class="sub" data-id="Hitung Body Mass Index Anda. Hasil bersifat indikatif, bukan diagnosis medis." data-en="Calculate your Body Mass Index. Indicative only — not medical advice.">Hitung Body Mass Index Anda. Hasil bersifat indikatif, bukan diagnosis medis.</p>
+          <div class="row">
+            <label class="field"><span data-id="Berat badan (kg)" data-en="Weight (kg)">Berat badan (kg)</span>
+              <input type="number" id="bmiWeight" step="any" placeholder="65" /></label>
+            <label class="field"><span data-id="Tinggi badan (cm)" data-en="Height (cm)">Tinggi badan (cm)</span>
+              <input type="number" id="bmiHeight" step="any" placeholder="170" /></label>
+          </div>
+          <button class="btn" id="bmiCalc" data-id="Hitung BMI" data-en="Calculate BMI">Hitung BMI</button>
+          <div class="result" id="bmiResult"></div>
+        </div>
+      </section>
+
+      <section class="tool-view" id="view-age">
+        <button class="back-btn" data-id="← Kembali" data-en="← Back">← Kembali</button>
+        <div class="panel">
+          <h2 data-id="Kalkulator Usia" data-en="Age Calculator">Kalkulator Usia</h2>
+          <p class="sub" data-id="Hitung usia Anda secara tepat, hingga hitungan hari." data-en="Work out your exact age, down to the day.">Hitung usia Anda secara tepat, hingga hitungan hari.</p>
+          <label class="field"><span data-id="Tanggal lahir" data-en="Date of birth">Tanggal lahir</span>
+            <input type="date" id="ageDate" /></label>
+          <button class="btn" id="ageCalc" data-id="Hitung usia" data-en="Calculate age">Hitung usia</button>
+          <div class="result" id="ageResult"></div>
+        </div>
+      </section>
+
+      <section class="tool-view" id="view-picker">
+        <button class="back-btn" data-id="← Kembali" data-en="← Back">← Kembali</button>
+        <div class="panel">
+          <h2 data-id="Undian Nama Acak" data-en="Random Name Picker">Undian Nama Acak</h2>
+          <p class="sub" data-id="Masukkan daftar nama (satu per baris), lalu pilih pemenang secara acak. Cocok untuk giveaway, arisan, atau memilih siapa yang bayar!" data-en="Enter names (one per line) and pick a random winner. Great for giveaways, raffles, or deciding who pays!">Masukkan daftar nama (satu per baris), lalu pilih pemenang secara acak. Cocok untuk giveaway, arisan, atau memilih siapa yang bayar!</p>
+          <textarea id="pickerNames" rows="6" data-ph-id="Andi&#10;Budi&#10;Citra&#10;Dewi" data-ph-en="Alice&#10;Bob&#10;Carol&#10;Dave" placeholder="Andi&#10;Budi&#10;Citra&#10;Dewi"></textarea>
+          <div class="btn-row" style="margin-top:14px">
+            <button class="btn" id="pickBtn" data-id="🎲 Pilih pemenang" data-en="🎲 Pick a winner">🎲 Pilih pemenang</button>
+            <button class="btn ghost" id="shuffleBtn" data-id="Acak urutan" data-en="Shuffle list">Acak urutan</button>
+          </div>
+          <div class="picker-result" id="pickerResult"></div>
+        </div>
+      </section>
+
+      <section class="tool-view" id="view-pomodoro">
+        <button class="back-btn" data-id="← Kembali" data-en="← Back">← Kembali</button>
+        <div class="panel">
+          <h2 data-id="Pomodoro Timer" data-en="Pomodoro Timer">Pomodoro Timer</h2>
+          <p class="sub" data-id="Fokus 25 menit, istirahat 5 menit. Teknik sederhana untuk produktivitas." data-en="Focus for 25 minutes, rest for 5. A simple technique for deep work.">Fokus 25 menit, istirahat 5 menit. Teknik sederhana untuk produktivitas.</p>
+          <div class="timer-modes">
+            <button class="active" data-mins="25" data-id="Fokus 25m" data-en="Focus 25m">Fokus 25m</button>
+            <button data-mins="5" data-id="Istirahat 5m" data-en="Break 5m">Istirahat 5m</button>
+            <button data-mins="15" data-id="Istirahat 15m" data-en="Break 15m">Istirahat 15m</button>
+          </div>
+          <div class="timer-display" id="timerDisplay">25:00</div>
+          <div class="timer-controls">
+            <button class="btn" id="timerStart" data-id="Mulai" data-en="Start">Mulai</button>
+            <button class="btn ghost" id="timerReset" data-id="Reset" data-en="Reset">Reset</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="tool-view" id="view-loan">
+        <button class="back-btn" data-id="← Kembali" data-en="← Back">← Kembali</button>
+        <div class="panel">
+          <h2 data-id="Kalkulator Cicilan" data-en="Loan Installment Calculator">Kalkulator Cicilan</h2>
+          <p class="sub" data-id="Perkiraan cicilan bulanan dengan bunga anuitas. Hasil bersifat estimasi, bukan penawaran finansial." data-en="Estimate monthly payments with annuity interest. Estimates only — not financial advice.">Perkiraan cicilan bulanan dengan bunga anuitas. Hasil bersifat estimasi, bukan penawaran finansial.</p>
+          <div class="row-3">
+            <label class="field"><span data-id="Jumlah pinjaman" data-en="Loan amount">Jumlah pinjaman</span>
+              <input type="number" id="loanAmount" step="any" placeholder="50000000" /></label>
+            <label class="field"><span data-id="Bunga per tahun %" data-en="Annual interest %">Bunga per tahun %</span>
+              <input type="number" id="loanRate" step="any" placeholder="6" /></label>
+            <label class="field"><span data-id="Tenor (bulan)" data-en="Term (months)">Tenor (bulan)</span>
+              <input type="number" id="loanMonths" placeholder="36" /></label>
+          </div>
+          <button class="btn" id="loanCalc" data-id="Hitung cicilan" data-en="Calculate">Hitung cicilan</button>
+          <div class="result" id="loanResult"></div>
+        </div>
+      </section>
+
+    </div>
+
+    <footer class="site-footer">
+      <p data-id-html="Dibuat dengan ❤️ · Semua data diproses di browser Anda, tidak dikirim ke server manapun.<br />Suka dengan tools ini? <a href='https://trakteer.id/manuelnicholas' target='_blank' rel='noopener'>Traktir saya kopi di Trakteer ☕</a>"
+         data-en-html="Made with ❤️ · All data is processed in your browser — nothing is sent to any server.<br />Enjoying these tools? <a href='https://trakteer.id/manuelnicholas' target='_blank' rel='noopener'>Buy me a coffee on Trakteer ☕</a>">
+        Dibuat dengan ❤️ · Semua data diproses di browser Anda, tidak dikirim ke server manapun.<br />Suka dengan tools ini? <a href="https://trakteer.id/manuelnicholas" target="_blank" rel="noopener">Traktir saya kopi di Trakteer ☕</a></p>
+    </footer>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" referrerpolicy="no-referrer"></script>
+  <script>
+  "use strict";
+  const $ = (s) => document.querySelector(s);
+  const $$ = (s) => Array.from(document.querySelectorAll(s));
+
+  /* ---------- Language ---------- */
+  let lang = localStorage.getItem("st_lang") || "id";
+  const t = (idStr, enStr) => (lang === "id" ? idStr : enStr);
+
+  function applyLang() {
+    document.documentElement.lang = lang;
+    $$("[data-id]").forEach((el) => {
+      const v = lang === "id" ? el.dataset.id : el.dataset.en;
+      if (v !== undefined) el.textContent = v;
+    });
+    $$("[data-id-html]").forEach((el) => {
+      const v = lang === "id" ? el.dataset.idHtml : el.dataset.enHtml;
+      if (v !== undefined) el.innerHTML = v;
+    });
+    $$("[data-ph-id]").forEach((el) => {
+      el.placeholder = lang === "id" ? el.dataset.phId : el.dataset.phEn;
+    });
+    $("#langId").classList.toggle("active", lang === "id");
+    $("#langEn").classList.toggle("active", lang === "en");
+    renderGrid();
+    fillUnitCategories();
+  }
+  $("#langId").onclick = () => { lang = "id"; localStorage.setItem("st_lang", lang); applyLang(); };
+  $("#langEn").onclick = () => { lang = "en"; localStorage.setItem("st_lang", lang); applyLang(); };
+
+  /* ---------- Toast ---------- */
+  let toastTimer;
+  function toast(msg) {
+    const el = $("#toast");
+    el.textContent = msg;
+    el.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => el.classList.remove("show"), 1800);
+  }
+  function copyText(text) {
+    if (!text) return;
+    navigator.clipboard.writeText(text).then(
+      () => toast(t("Tersalin!", "Copied!")),
+      () => toast(t("Gagal menyalin", "Copy failed"))
+    );
+  }
+
+  /* ---------- Tools registry & routing ---------- */
+  const TOOLS = [
+    { id: "counter",  icon: "📝", id_name: "Penghitung Kata", en_name: "Word Counter", id_desc: "Kata, karakter, kalimat, estimasi waktu baca.", en_desc: "Words, characters, sentences, reading time.", kw: "word count kata karakter character text teks" },
+    { id: "case",     icon: "🔠", id_name: "Pengubah Huruf", en_name: "Case Converter", id_desc: "UPPERCASE, lowercase, Title Case, camelCase, dll.", en_desc: "UPPERCASE, lowercase, Title Case, camelCase, etc.", kw: "case huruf besar kecil kapital uppercase lowercase" },
+    { id: "password", icon: "🔐", id_name: "Generator Password", en_name: "Password Generator", id_desc: "Password acak yang kuat, dibuat di perangkat Anda.", en_desc: "Strong random passwords, generated on-device.", kw: "password sandi kata random secure" },
+    { id: "qr",       icon: "📱", id_name: "Generator QR Code", en_name: "QR Code Generator", id_desc: "Ubah link/teks jadi QR, unduh sebagai PNG.", en_desc: "Turn links/text into QR codes, download as PNG.", kw: "qr code barcode link url scan" },
+    { id: "unit",     icon: "📏", id_name: "Konverter Satuan", en_name: "Unit Converter", id_desc: "Panjang, berat, suhu, dan ukuran data.", en_desc: "Length, weight, temperature, data size.", kw: "unit satuan konversi convert meter kg celsius mb" },
+    { id: "percent",  icon: "💯", id_name: "Kalkulator Persen", en_name: "Percentage Calculator", id_desc: "Persentase, proporsi, dan harga diskon.", en_desc: "Percentages, proportions, and discount prices.", kw: "persen percent diskon discount kalkulator" },
+    { id: "splitbill",icon: "🧾", id_name: "Split Bill", en_name: "Split Bill", id_desc: "Bagi tagihan + pajak + service dengan adil.", en_desc: "Split bills fairly, with tax and service charge.", kw: "split bill patungan tagihan bagi makan" },
+    { id: "bmi",      icon: "⚖️", id_name: "Kalkulator BMI", en_name: "BMI Calculator", id_desc: "Cek indeks massa tubuh Anda.", en_desc: "Check your body mass index.", kw: "bmi berat badan weight health sehat" },
+    { id: "age",      icon: "🎂", id_name: "Kalkulator Usia", en_name: "Age Calculator", id_desc: "Usia tepat dalam tahun, bulan, dan hari.", en_desc: "Exact age in years, months, and days.", kw: "usia umur age birthday ulang tahun lahir" },
+    { id: "picker",   icon: "🎲", id_name: "Undian Nama", en_name: "Random Picker", id_desc: "Pilih pemenang acak dari daftar nama.", en_desc: "Pick a random winner from a list of names.", kw: "random acak undian giveaway pemenang picker nama" },
+    { id: "pomodoro", icon: "🍅", id_name: "Pomodoro Timer", en_name: "Pomodoro Timer", id_desc: "Timer fokus 25/5 untuk produktivitas.", en_desc: "25/5 focus timer for productivity.", kw: "pomodoro timer fokus focus belajar study produktif" },
+    { id: "loan",     icon: "🏦", id_name: "Kalkulator Cicilan", en_name: "Loan Calculator", id_desc: "Estimasi cicilan bulanan pinjaman.", en_desc: "Estimate monthly loan installments.", kw: "cicilan loan kredit kpr pinjaman bunga installment" },
+  ];
+
+  function renderGrid(filter = $("#searchInput").value) {
+    const q = (filter || "").toLowerCase().trim();
+    const grid = $("#toolGrid");
+    grid.innerHTML = "";
+    TOOLS.forEach((tool) => {
+      const name = lang === "id" ? tool.id_name : tool.en_name;
+      const desc = lang === "id" ? tool.id_desc : tool.en_desc;
+      const hay = (name + " " + desc + " " + tool.kw).toLowerCase();
+      if (q && !hay.includes(q)) return;
+      const card = document.createElement("button");
+      card.className = "tool-card";
+      card.type = "button";
+      card.innerHTML = `<div class="icon">${tool.icon}</div><h3></h3><p></p>`;
+      card.querySelector("h3").textContent = name;
+      card.querySelector("p").textContent = desc;
+      card.onclick = () => { location.hash = "#/" + tool.id; };
+      grid.appendChild(card);
+    });
+  }
+  $("#searchInput").addEventListener("input", () => renderGrid());
+
+  function route() {
+    const id = location.hash.replace("#/", "");
+    const valid = TOOLS.some((tool) => tool.id === id);
+    $("#homeView").style.display = valid ? "none" : "block";
+    $$(".tool-view").forEach((v) => v.classList.remove("active"));
+    if (valid) {
+      $("#view-" + id).classList.add("active");
+      window.scrollTo({ top: 0 });
+    }
+  }
+  window.addEventListener("hashchange", route);
+  $$(".back-btn").forEach((b) => (b.onclick = () => { location.hash = ""; }));
+  $("#brandHome").onclick = () => { location.hash = ""; };
+
+  const fmt = (n, dec = 2) =>
+    new Intl.NumberFormat(lang === "id" ? "id-ID" : "en-US", { maximumFractionDigits: dec }).format(n);
+
+  /* ---------- 1. Word counter ---------- */
+  $("#counterText").addEventListener("input", () => {
+    const txt = $("#counterText").value;
+    const words = txt.trim() ? txt.trim().split(/\s+/).length : 0;
+    $("#cWords").textContent = words;
+    $("#cChars").textContent = txt.length;
+    $("#cCharsNs").textContent = txt.replace(/\s/g, "").length;
+    $("#cSent").textContent = (txt.match(/[^.!?]+[.!?]+/g) || (txt.trim() ? [1] : [])).length;
+    $("#cPara").textContent = txt.trim() ? txt.trim().split(/\n\s*\n|\n/).filter(Boolean).length : 0;
+    $("#cRead").textContent = Math.ceil(words / 200) || 0;
+  });
+
+  /* ---------- 2. Case converter ---------- */
+  const caseFns = {
+    upper: (s) => s.toUpperCase(),
+    lower: (s) => s.toLowerCase(),
+    title: (s) => s.toLowerCase().replace(/(^|\s)\S/g, (c) => c.toUpperCase()),
+    sentence: (s) => s.toLowerCase().replace(/(^\s*\S|[.!?]\s+\S)/g, (c) => c.toUpperCase()),
+    camel: (s) => s.toLowerCase().replace(/[^a-z0-9]+(.)/g, (_, c) => c.toUpperCase()).replace(/^[A-Z]/, (c) => c.toLowerCase()),
+    snake: (s) => s.trim().toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_|_$/g, ""),
+    kebab: (s) => s.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""),
+  };
+  $$("[data-case]").forEach((b) => {
+    b.addEventListener("click", () => {
+      $("#caseText").value = caseFns[b.dataset.case]($("#caseText").value);
+    });
+  });
+  $("#caseCopy").onclick = () => copyText($("#caseText").value);
+
+  /* ---------- 3. Password generator ---------- */
+  const PW_SETS = {
+    pwUpper: "ABCDEFGHJKLMNPQRSTUVWXYZ",
+    pwLower: "abcdefghijkmnopqrstuvwxyz",
+    pwDigit: "23456789",
+    pwSymbol: "!@#$%^&*()-_=+[]{};:,.?/",
+  };
+  $("#pwLen").addEventListener("input", () => ($("#pwLenLabel").textContent = $("#pwLen").value));
+  function genPassword() {
+    const len = +$("#pwLen").value;
+    const pools = Object.keys(PW_SETS).filter((k) => $("#" + k).checked).map((k) => PW_SETS[k]);
+    if (!pools.length) { toast(t("Pilih minimal satu jenis karakter", "Select at least one character type")); return; }
+    const rand = (max) => {
+      const a = new Uint32Array(1);
+      crypto.getRandomValues(a);
+      return a[0] % max;
+    };
+    let chars = pools.map((p) => p[rand(p.length)]); // one from each pool
+    const all = pools.join("");
+    while (chars.length < len) chars.push(all[rand(all.length)]);
+    for (let i = chars.length - 1; i > 0; i--) { // shuffle
+      const j = rand(i + 1);
+      [chars[i], chars[j]] = [chars[j], chars[i]];
+    }
+    const pw = chars.join("");
+    $("#pwOut").value = pw;
+    const score = Math.min(100, (len / 24) * 60 + pools.length * 10);
+    const bar = $("#pwBar");
+    bar.style.width = score + "%";
+    bar.style.background = score < 45 ? "#e0a100" : score < 70 ? "#e07b00" : "#1a9e4b";
+  }
+  $("#pwGen").onclick = genPassword;
+  $("#pwCopy").onclick = () => copyText($("#pwOut").value);
+
+  /* ---------- 4. QR generator ---------- */
+  let qrObj = null;
+  $("#qrGen").onclick = () => {
+    const text = $("#qrText").value.trim();
+    if (!text) { toast(t("Masukkan teks atau URL dulu", "Enter some text or a URL first")); return; }
+    if (typeof QRCode === "undefined") { toast(t("Library QR gagal dimuat — cek koneksi internet lalu refresh halaman", "QR library failed to load — check your connection and refresh")); return; }
+    $("#qrBox").innerHTML = "";
+    qrObj = new QRCode($("#qrBox"), { text, width: 220, height: 220, correctLevel: QRCode.CorrectLevel.M });
+  };
+  $("#qrDownload").onclick = () => {
+    const img = $("#qrBox img");
+    const canvas = $("#qrBox canvas");
+    const src = img && img.src ? img.src : canvas ? canvas.toDataURL("image/png") : null;
+    if (!src) { toast(t("Buat QR dulu", "Generate a QR first")); return; }
+    const a = document.createElement("a");
+    a.href = src;
+    a.download = "qrcode.png";
+    a.click();
+  };
+
+  /* ---------- 5. Unit converter ---------- */
+  const UNITS = {
+    length: {
+      id: "Panjang", en: "Length",
+      units: { km: 1000, m: 1, cm: 0.01, mm: 0.001, mil_mile: 1609.344, yard: 0.9144, kaki_feet: 0.3048, inci_inch: 0.0254 },
+    },
+    weight: {
+      id: "Berat", en: "Weight",
+      units: { ton: 1000, kg: 1, gram: 0.001, mg: 0.000001, pon_lb: 0.45359237, ons_oz: 0.028349523125 },
+    },
+    temp: { id: "Suhu", en: "Temperature", units: { "°C": 1, "°F": 1, K: 1 } },
+    data: {
+      id: "Ukuran data", en: "Data size",
+      units: { TB: 1024 ** 4, GB: 1024 ** 3, MB: 1024 ** 2, KB: 1024, Byte: 1 },
+    },
+  };
+  function unitLabel(key) {
+    if (key.includes("_")) {
+      const [idName, enName] = key.split("_");
+      return lang === "id" ? idName : enName;
+    }
+    return key;
+  }
+  function fillUnitCategories() {
+    const cat = $("#unitCat");
+    const prev = cat.value;
+    cat.innerHTML = "";
+    Object.keys(UNITS).forEach((k) => {
+      const o = document.createElement("option");
+      o.value = k;
+      o.textContent = lang === "id" ? UNITS[k].id : UNITS[k].en;
+      cat.appendChild(o);
+    });
+    cat.value = prev && UNITS[prev] ? prev : "length";
+    fillUnits();
+  }
+  function fillUnits() {
+    const cat = $("#unitCat").value;
+    const from = $("#unitFrom"), to = $("#unitTo");
+    const prevF = from.value, prevT = to.value;
+    [from, to].forEach((sel) => {
+      sel.innerHTML = "";
+      Object.keys(UNITS[cat].units).forEach((u) => {
+        const o = document.createElement("option");
+        o.value = u;
+        o.textContent = unitLabel(u);
+        sel.appendChild(o);
+      });
+    });
+    const keys = Object.keys(UNITS[cat].units);
+    from.value = keys.includes(prevF) ? prevF : keys[1] || keys[0];
+    to.value = keys.includes(prevT) ? prevT : keys[0];
+    convertUnit();
+  }
+  function convertUnit() {
+    const cat = $("#unitCat").value;
+    const val = parseFloat($("#unitVal").value);
+    const from = $("#unitFrom").value, to = $("#unitTo").value;
+    const out = $("#unitResult");
+    if (isNaN(val)) { out.textContent = "—"; return; }
+    let res;
+    if (cat === "temp") {
+      let c = from === "°C" ? val : from === "°F" ? (val - 32) * 5 / 9 : val - 273.15;
+      res = to === "°C" ? c : to === "°F" ? c * 9 / 5 + 32 : c + 273.15;
+    } else {
+      res = (val * UNITS[cat].units[from]) / UNITS[cat].units[to];
+    }
+    out.innerHTML = `${fmt(val, 6)} ${unitLabel(from)} = <strong>${fmt(res, 6)}</strong> ${unitLabel(to)}`;
+  }
+  $("#unitCat").addEventListener("change", fillUnits);
+  ["unitFrom", "unitTo", "unitVal"].forEach((id) =>
+    $("#" + id).addEventListener("input", convertUnit)
+  );
+
+  /* ---------- 6. Percentage ---------- */
+  function pcLabels() {
+    const m = $("#pcMode").value;
+    const L = {
+      of:   [t("Persen (X%)", "Percent (X%)"), t("Dari nilai (Y)", "Of value (Y)")],
+      what: [t("Nilai (X)", "Value (X)"), t("Dari total (Y)", "Out of total (Y)")],
+      disc: [t("Harga awal", "Original price"), t("Diskon %", "Discount %")],
+    }[m];
+    $("#pcLabelA").textContent = L[0];
+    $("#pcLabelB").textContent = L[1];
+  }
+  $("#pcMode").addEventListener("change", pcLabels);
+  $("#pcCalc").onclick = () => {
+    const m = $("#pcMode").value;
+    const a = parseFloat($("#pcA").value), b = parseFloat($("#pcB").value);
+    const out = $("#pcResult");
+    if (isNaN(a) || isNaN(b)) { toast(t("Isi kedua angka dulu", "Fill in both numbers")); return; }
+    let html;
+    if (m === "of") html = `${fmt(a)}% × ${fmt(b)} = <strong>${fmt((a / 100) * b, 4)}</strong>`;
+    else if (m === "what") html = `${fmt(a)} ${t("adalah", "is")} <strong>${fmt((a / b) * 100, 4)}%</strong> ${t("dari", "of")} ${fmt(b)}`;
+    else {
+      const final = a * (1 - b / 100);
+      html = `${t("Harga akhir", "Final price")}: <strong>${fmt(final)}</strong><br />${t("Anda hemat", "You save")}: ${fmt(a - final)}`;
+    }
+    out.innerHTML = html;
+    out.classList.add("show");
+  };
+
+  /* ---------- 7. Split bill ---------- */
+  $("#sbCalc").onclick = () => {
+    const total = parseFloat($("#sbTotal").value);
+    const people = parseInt($("#sbPeople").value, 10);
+    const tax = parseFloat($("#sbTax").value) || 0;
+    const tip = parseFloat($("#sbTip").value) || 0;
+    const out = $("#sbResult");
+    if (isNaN(total) || !people || people < 1) { toast(t("Isi total tagihan dan jumlah orang", "Enter the bill total and number of people")); return; }
+    const grand = Math.round(total * (1 + tax / 100) * (1 + tip / 100));
+    out.innerHTML =
+      `${t("Total setelah pajak & service", "Total after tax & service")}: <strong>${fmt(grand)}</strong><br />` +
+      `${t("Per orang", "Per person")} (${people}): <strong>${fmt(Math.ceil(grand / people))}</strong>`;
+    out.classList.add("show");
+  };
+
+  /* ---------- 8. BMI ---------- */
+  $("#bmiCalc").onclick = () => {
+    const w = parseFloat($("#bmiWeight").value);
+    const h = parseFloat($("#bmiHeight").value) / 100;
+    const out = $("#bmiResult");
+    if (isNaN(w) || isNaN(h) || h <= 0) { toast(t("Isi berat dan tinggi badan", "Enter weight and height")); return; }
+    const bmi = w / (h * h);
+    let cat;
+    if (bmi < 18.5) cat = t("Berat badan kurang", "Underweight");
+    else if (bmi < 25) cat = t("Normal", "Normal");
+    else if (bmi < 30) cat = t("Berat badan berlebih", "Overweight");
+    else cat = t("Obesitas", "Obese");
+    out.innerHTML = `BMI: <strong>${fmt(bmi, 1)}</strong> — ${cat}<br /><small>${t("Kategori WHO. Konsultasikan ke tenaga medis untuk penilaian menyeluruh.", "WHO categories. Consult a medical professional for a full assessment.")}</small>`;
+    out.classList.add("show");
+  };
+
+  /* ---------- 9. Age ---------- */
+  $("#ageCalc").onclick = () => {
+    const val = $("#ageDate").value;
+    const out = $("#ageResult");
+    if (!val) { toast(t("Pilih tanggal lahir dulu", "Pick your date of birth")); return; }
+    const dob = new Date(val + "T00:00:00");
+    const now = new Date();
+    if (dob > now) { toast(t("Tanggal lahir di masa depan?", "Born in the future?")); return; }
+    let y = now.getFullYear() - dob.getFullYear();
+    let m = now.getMonth() - dob.getMonth();
+    let d = now.getDate() - dob.getDate();
+    if (d < 0) { m--; d += new Date(now.getFullYear(), now.getMonth(), 0).getDate(); }
+    if (m < 0) { y--; m += 12; }
+    const totalDays = Math.floor((now - dob) / 86400000);
+    let next = new Date(now.getFullYear(), dob.getMonth(), dob.getDate());
+    if (next <= now) next = new Date(now.getFullYear() + 1, dob.getMonth(), dob.getDate());
+    const toNext = Math.ceil((next - now) / 86400000);
+    out.innerHTML =
+      `${t("Usia", "Age")}: <strong>${y} ${t("tahun", "years")}, ${m} ${t("bulan", "months")}, ${d} ${t("hari", "days")}</strong><br />` +
+      `${t("Total", "Total")}: ${fmt(totalDays, 0)} ${t("hari", "days")}<br />` +
+      `${t("Ulang tahun berikutnya dalam", "Next birthday in")} ${toNext} ${t("hari", "days")} 🎉`;
+    out.classList.add("show");
+  };
+
+  /* ---------- 10. Random picker ---------- */
+  const getNames = () => $("#pickerNames").value.split("\n").map((s) => s.trim()).filter(Boolean);
+  $("#pickBtn").onclick = () => {
+    const names = getNames();
+    const out = $("#pickerResult");
+    if (names.length < 2) { toast(t("Masukkan minimal 2 nama", "Enter at least 2 names")); return; }
+    let ticks = 0;
+    const spin = setInterval(() => {
+      out.textContent = names[Math.floor(Math.random() * names.length)];
+      if (++ticks >= 15) {
+        clearInterval(spin);
+        const winner = names[Math.floor(Math.random() * names.length)];
+        out.textContent = "🎉 " + winner + " 🎉";
+      }
+    }, 80);
+  };
+  $("#shuffleBtn").onclick = () => {
+    const names = getNames();
+    for (let i = names.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [names[i], names[j]] = [names[j], names[i]];
+    }
+    $("#pickerNames").value = names.join("\n");
+    toast(t("Urutan diacak", "List shuffled"));
+  };
+
+  /* ---------- 11. Pomodoro ---------- */
+  let timerSecs = 25 * 60, timerLeft = timerSecs, timerInt = null;
+  function drawTimer() {
+    const mSec = Math.floor(timerLeft / 60), s = timerLeft % 60;
+    $("#timerDisplay").textContent = `${String(mSec).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+  }
+  function beep() {
+    try {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const o = ctx.createOscillator(), g = ctx.createGain();
+      o.connect(g); g.connect(ctx.destination);
+      o.frequency.value = 880; g.gain.value = 0.25;
+      o.start();
+      setTimeout(() => { o.stop(); ctx.close(); }, 700);
+    } catch (e) { /* audio blocked */ }
+  }
+  function stopTimer() {
+    clearInterval(timerInt); timerInt = null;
+    $("#timerStart").textContent = t("Mulai", "Start");
+  }
+  $$(".timer-modes button").forEach((b) => {
+    b.onclick = () => {
+      $$(".timer-modes button").forEach((x) => x.classList.remove("active"));
+      b.classList.add("active");
+      timerSecs = timerLeft = +b.dataset.mins * 60;
+      stopTimer(); drawTimer();
+    };
+  });
+  $("#timerStart").onclick = () => {
+    if (timerInt) { stopTimer(); return; }
+    $("#timerStart").textContent = t("Jeda", "Pause");
+    timerInt = setInterval(() => {
+      timerLeft--;
+      drawTimer();
+      if (timerLeft <= 0) {
+        stopTimer();
+        timerLeft = timerSecs;
+        beep();
+        toast(t("Waktu habis! 🍅", "Time's up! 🍅"));
+        setTimeout(drawTimer, 1500);
+      }
+    }, 1000);
+  };
+  $("#timerReset").onclick = () => { stopTimer(); timerLeft = timerSecs; drawTimer(); };
+
+  /* ---------- 12. Loan ---------- */
+  $("#loanCalc").onclick = () => {
+    const P = parseFloat($("#loanAmount").value);
+    const rate = parseFloat($("#loanRate").value);
+    const n = parseInt($("#loanMonths").value, 10);
+    const out = $("#loanResult");
+    if (isNaN(P) || isNaN(rate) || !n || n < 1) { toast(t("Lengkapi semua kolom", "Fill in all fields")); return; }
+    const r = rate / 12 / 100;
+    const monthly = r === 0 ? P / n : (P * r) / (1 - Math.pow(1 + r, -n));
+    const total = monthly * n;
+    out.innerHTML =
+      `${t("Cicilan per bulan", "Monthly payment")}: <strong>${fmt(Math.round(monthly))}</strong><br />` +
+      `${t("Total pembayaran", "Total payment")}: ${fmt(Math.round(total))}<br />` +
+      `${t("Total bunga", "Total interest")}: ${fmt(Math.round(total - P))}`;
+    out.classList.add("show");
+  };
+
+  /* ---------- Init ---------- */
+  applyLang();
+  pcLabels();
+  route();
+  </script>
+</body>
+</html>
