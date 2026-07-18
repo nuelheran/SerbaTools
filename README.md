@@ -31,7 +31,7 @@ Free everyday tools in one place. No signup, no server — everything runs in yo
 
 ## 🚀 Demo
 
-> Setelah deploy, ganti dengan URL Anda, misal: `https://username.github.io/serbatools/`
+> `https://serbatools.netlify.app/`
 
 ## 📦 Cara Deploy
 
