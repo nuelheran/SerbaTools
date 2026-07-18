@@ -73,4 +73,7 @@ Jika tools ini bermanfaat, Anda bisa memberikan dukungan sukarela:
 
 ## 📄 Lisensi
 
-MIT — bebas digunakan, dimodifikasi, dan didistribusikan.
+All Rights Reserved
+
+This code is proprietary and confidential. 
+Unauthorized copying, modification, or use is prohibited.
