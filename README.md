@@ -1,6 +1,6 @@
 # 🧰 SerbaTools
 
-**Kumpulan 12 tools gratis untuk keperluan sehari-hari — bilingual (ID/EN), tanpa daftar akun, dan 100% berjalan di browser.**
+**Kumpulan 15 tools gratis untuk keperluan sehari-hari — bilingual (ID/EN), tanpa daftar akun, dan 100% berjalan di browser.**
 
 Free everyday tools in one place. No signup, no server — everything runs in your browser.
 
@@ -20,6 +20,9 @@ Free everyday tools in one place. No signup, no server — everything runs in yo
 | 🎲 Undian Nama | Pilih pemenang acak — cocok untuk giveaway |
 | 🍅 Pomodoro Timer | Timer fokus 25/5 untuk produktivitas |
 | 🏦 Kalkulator Cicilan | Estimasi cicilan bulanan (bunga anuitas) |
+| 🗒️ Catatan Cepat | Notepad instan dengan auto-save di browser |
+| 💬 Link WhatsApp | Buat link wa.me dengan pesan otomatis — cocok untuk jualan online |
+| 📄 CV Generator | CV profesional ATS-friendly gratis di [cv-generator-online.com](https://cv-generator-online.com/) |
 
 **Keunggulan lain:**
 
@@ -31,7 +34,7 @@ Free everyday tools in one place. No signup, no server — everything runs in yo
 
 ## 🚀 Demo
 
-> `https://serbatools.netlify.app/`
+> Setelah deploy, ganti dengan URL Anda, misal: `https://username.github.io/serbatools/`
 
 ## 📦 Cara Deploy
 
@@ -63,7 +66,7 @@ Tidak perlu install apa pun — cukup buka `index.html` di browser.
 
 ## 🧱 Teknologi
 
-HTML + CSS + Vanilla JavaScript dalam satu file. Dependency eksternal hanya via CDN: [qrcodejs](https://cdnjs.com/libraries/qrcodejs) untuk QR code dan Google Fonts (Inter).
+HTML + CSS + Vanilla JavaScript dalam satu file. Dependency eksternal hanya via CDN: [qrcodejs](https://cdnjs.com/libraries/qrcodejs) untuk QR code, [Three.js](https://threejs.org/) untuk background "cyber ocean" animatif, dan Google Fonts (Inter).
 
 ## ☕ Dukungan
 
@@ -73,7 +76,4 @@ Jika tools ini bermanfaat, Anda bisa memberikan dukungan sukarela:
 
 ## 📄 Lisensi
 
-All Rights Reserved
-
-This code is proprietary and confidential. 
-Unauthorized copying, modification, or use is prohibited.
+MIT — bebas digunakan, dimodifikasi, dan didistribusikan.

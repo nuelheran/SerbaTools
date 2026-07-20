@@ -6,7 +6,7 @@
   <title>SerbaTools — Tools Gratis Serbaguna | Free Everyday Tools</title>
   <meta name="description" content="Kumpulan tools online gratis: word counter, password generator, QR code, konverter satuan, kalkulator split bill, BMI, usia, cicilan, pomodoro timer, dan lainnya. Free online tools — no signup, works in your browser." />
   <meta property="og:title" content="SerbaTools — Tools Gratis Serbaguna" />
-  <meta property="og:description" content="12 tools gratis dalam satu situs. Semua diproses di browser Anda, tanpa daftar akun." />
+  <meta property="og:description" content="15 tools gratis dalam satu situs. Semua diproses di browser Anda, tanpa daftar akun." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -37,7 +37,11 @@
         linear-gradient(160deg, #141e30 0%, #1e1b38 50%, #2b1224 100%);
       background-attachment: fixed;
     }
-    .shell { max-width: 1080px; margin: 0 auto; padding: 0 20px 60px; }
+    .shell { max-width: 1080px; margin: 0 auto; padding: 0 20px 60px; position: relative; z-index: 1; }
+    #bg3d {
+      position: fixed; inset: 0; width: 100%; height: 100%;
+      z-index: 0; pointer-events: none;
+    }
 
     /* --- Liquid glass recipe --- */
     .support-strip, .panel, .tool-card, .stat, .lang-toggle,
@@ -129,9 +133,11 @@
 
     /* Tool grid */
     .grid {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      display: grid; grid-template-columns: repeat(3, 1fr);
       gap: 16px; margin-top: 34px;
     }
+    @media (max-width: 860px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px) { .grid { grid-template-columns: 1fr; } }
     .tool-card {
       border-radius: var(--radius);
       padding: 20px; cursor: pointer; text-align: left; font: inherit; color: var(--ink);
@@ -264,6 +270,7 @@
   </style>
 </head>
 <body>
+  <canvas id="bg3d" aria-hidden="true"></canvas>
   <div class="shell">
 
     <section class="support-strip" aria-label="Dukungan kreator">
@@ -301,7 +308,7 @@
     <!-- HOME -->
     <div id="homeView">
       <header class="hero">
-        <span class="eyebrow" data-id="✦ 12 tools gratis, tanpa daftar akun" data-en="✦ 12 free tools, no signup needed">✦ 12 tools gratis, tanpa daftar akun</span>
+        <span class="eyebrow" data-id="✦ 15 tools gratis, tanpa daftar akun" data-en="✦ 15 free tools, no signup needed">✦ 15 tools gratis, tanpa daftar akun</span>
         <h1 data-id-html="Semua tools harian Anda,<br /><em>dalam satu tempat.</em>"
             data-en-html="All your everyday tools,<br /><em>in one place.</em>">
           Semua tools harian Anda,<br /><em>dalam satu tempat.</em></h1>
@@ -534,6 +541,41 @@
         </div>
       </section>
 
+      <section class="tool-view" id="view-notes">
+        <button class="back-btn" data-id="← Kembali" data-en="← Back">← Kembali</button>
+        <div class="panel">
+          <h2 data-id="Catatan Cepat" data-en="Quick Notes">Catatan Cepat</h2>
+          <p class="sub" data-id="Notepad instan dengan auto-save. Catatan tersimpan di browser Anda dan tetap ada saat halaman dibuka kembali." data-en="Instant notepad with auto-save. Notes stay in your browser and survive page reloads.">Notepad instan dengan auto-save. Catatan tersimpan di browser Anda dan tetap ada saat halaman dibuka kembali.</p>
+          <textarea id="notesText" rows="10" data-ph-id="Tulis apa saja di sini — tersimpan otomatis…" data-ph-en="Write anything here — it saves automatically…" placeholder="Tulis apa saja di sini — tersimpan otomatis…"></textarea>
+          <p class="sub" id="notesInfo" style="margin:10px 0 0"></p>
+          <div class="btn-row" style="margin-top:14px">
+            <button class="btn" id="notesCopy" data-id="Salin" data-en="Copy">Salin</button>
+            <button class="btn ghost" id="notesDownload" data-id="Unduh .txt" data-en="Download .txt">Unduh .txt</button>
+            <button class="btn ghost" id="notesClear" data-id="Hapus semua" data-en="Clear all">Hapus semua</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="tool-view" id="view-whatsapp">
+        <button class="back-btn" data-id="← Kembali" data-en="← Back">← Kembali</button>
+        <div class="panel">
+          <h2 data-id="Generator Link WhatsApp" data-en="WhatsApp Link Generator">Generator Link WhatsApp</h2>
+          <p class="sub" data-id="Buat link wa.me dengan pesan otomatis — penerima bisa langsung chat tanpa menyimpan nomor Anda. Cocok untuk jualan online dan bio media sosial." data-en="Create a wa.me link with a pre-filled message — people can chat you instantly without saving your number. Great for online sellers and social media bios.">Buat link wa.me dengan pesan otomatis — penerima bisa langsung chat tanpa menyimpan nomor Anda. Cocok untuk jualan online dan bio media sosial.</p>
+          <div class="row">
+            <label class="field"><span data-id="Nomor WhatsApp (awalan 0 otomatis jadi 62)" data-en="WhatsApp number (with country code)">Nomor WhatsApp (awalan 0 otomatis jadi 62)</span>
+              <input type="text" id="waPhone" data-ph-id="0812 3456 7890" data-ph-en="+62 812 3456 7890" placeholder="0812 3456 7890" /></label>
+          </div>
+          <label class="field"><span data-id="Pesan otomatis (opsional)" data-en="Pre-filled message (optional)">Pesan otomatis (opsional)</span>
+            <textarea id="waMsg" rows="3" data-ph-id="Halo, saya tertarik dengan produk Anda…" data-ph-en="Hi, I'm interested in your product…" placeholder="Halo, saya tertarik dengan produk Anda…"></textarea></label>
+          <div class="btn-row">
+            <button class="btn" id="waGen" data-id="Buat link" data-en="Generate link">Buat link</button>
+            <button class="btn ghost" id="waCopy" data-id="Salin link" data-en="Copy link">Salin link</button>
+            <button class="btn ghost" id="waOpen" data-id="Coba buka ↗" data-en="Test link ↗">Coba buka ↗</button>
+          </div>
+          <div class="result" id="waResult"></div>
+        </div>
+      </section>
+
     </div>
 
     <footer class="site-footer">
@@ -546,6 +588,89 @@
   <div class="toast" id="toast"></div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" referrerpolicy="no-referrer"></script>
+  <script>
+  /* ===== Cyber Ocean background (Three.js) ===== */
+  (function () {
+    if (!window.THREE) return; // CDN failed -> CSS gradient fallback
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    var canvas = document.getElementById("bg3d");
+    var renderer;
+    try {
+      renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: false });
+    } catch (e) { return; } // no WebGL -> fallback
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    renderer.setSize(window.innerWidth, window.innerHeight);
+
+    var scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2(0x141e30, 0.0016);
+    var camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 3000);
+    camera.position.set(0, 150, 420);
+
+    var small = window.innerWidth < 700;
+    var SEP = 24, AX = small ? 60 : 100, AY = small ? 40 : 60;
+    var num = AX * AY;
+    var positions = new Float32Array(num * 3);
+    var colors = new Float32Array(num * 3);
+    var cA = new THREE.Color(0xff5d6c); // brand red
+    var cB = new THREE.Color(0x5865f2); // cyber blue
+    var i = 0;
+    for (var ix = 0; ix < AX; ix++) {
+      for (var iy = 0; iy < AY; iy++) {
+        positions[i * 3] = ix * SEP - (AX * SEP) / 2;
+        positions[i * 3 + 1] = 0;
+        positions[i * 3 + 2] = iy * SEP - (AY * SEP) / 2;
+        var c = cA.clone().lerp(cB, ix / AX);
+        colors[i * 3] = c.r; colors[i * 3 + 1] = c.g; colors[i * 3 + 2] = c.b;
+        i++;
+      }
+    }
+    var geo = new THREE.BufferGeometry();
+    geo.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+    geo.setAttribute("color", new THREE.BufferAttribute(colors, 3));
+    var mat = new THREE.PointsMaterial({
+      size: 3.2, vertexColors: true, transparent: true, opacity: 0.75,
+      fog: true, sizeAttenuation: true,
+    });
+    var points = new THREE.Points(geo, mat);
+    scene.add(points);
+
+    var mouseX = 0, mouseY = 0;
+    window.addEventListener("pointermove", function (e) {
+      mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+      mouseY = (e.clientY / window.innerHeight) * 2 - 1;
+    }, { passive: true });
+    window.addEventListener("resize", function () {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    var count = 0;
+    var pos = geo.attributes.position.array;
+    function animate() {
+      requestAnimationFrame(animate);
+      if (document.hidden) return; // save battery when tab inactive
+      var k = 0;
+      for (var x = 0; x < AX; x++) {
+        for (var y = 0; y < AY; y++) {
+          pos[k * 3 + 1] =
+            Math.sin((x + count) * 0.28) * 14 +
+            Math.sin((y + count) * 0.42) * 14;
+          k++;
+        }
+      }
+      geo.attributes.position.needsUpdate = true;
+      // gentle mouse parallax
+      camera.position.x += (mouseX * 60 - camera.position.x) * 0.03;
+      camera.position.y += (150 + mouseY * -30 - camera.position.y) * 0.03;
+      camera.lookAt(0, 0, 0);
+      count += 0.04;
+      renderer.render(scene, camera);
+    }
+    animate();
+  })();
+  </script>
   <script>
   "use strict";
   const $ = (s) => document.querySelector(s);
@@ -607,6 +732,9 @@
     { id: "picker",   icon: "🎲", id_name: "Undian Nama", en_name: "Random Picker", id_desc: "Pilih pemenang acak dari daftar nama.", en_desc: "Pick a random winner from a list of names.", kw: "random acak undian giveaway pemenang picker nama" },
     { id: "pomodoro", icon: "🍅", id_name: "Pomodoro Timer", en_name: "Pomodoro Timer", id_desc: "Timer fokus 25/5 untuk produktivitas.", en_desc: "25/5 focus timer for productivity.", kw: "pomodoro timer fokus focus belajar study produktif" },
     { id: "loan",     icon: "🏦", id_name: "Kalkulator Cicilan", en_name: "Loan Calculator", id_desc: "Estimasi cicilan bulanan pinjaman.", en_desc: "Estimate monthly loan installments.", kw: "cicilan loan kredit kpr pinjaman bunga installment" },
+    { id: "notes",    icon: "🗒️", id_name: "Catatan Cepat", en_name: "Quick Notes", id_desc: "Notepad instan dengan auto-save di browser.", en_desc: "Instant notepad with in-browser auto-save.", kw: "catatan notes memo notepad tulis draft" },
+    { id: "whatsapp", icon: "💬", id_name: "Link WhatsApp", en_name: "WhatsApp Link", id_desc: "Buat link wa.me dengan pesan otomatis.", en_desc: "Create wa.me links with pre-filled messages.", kw: "whatsapp wa.me link chat jualan pesan message" },
+    { id: "cv",       icon: "📄", id_name: "CV Generator", en_name: "CV Generator", id_desc: "Buat CV profesional ATS-friendly, gratis. ↗", en_desc: "Build a free, ATS-friendly professional CV. ↗", kw: "cv resume lamaran kerja ats curriculum vitae job", ext: "https://cv-generator-online.com/" },
   ];
 
   function renderGrid(filter = $("#searchInput").value) {
@@ -624,7 +752,10 @@
       card.innerHTML = `<div class="icon">${tool.icon}</div><h3></h3><p></p>`;
       card.querySelector("h3").textContent = name;
       card.querySelector("p").textContent = desc;
-      card.onclick = () => { location.hash = "#/" + tool.id; };
+      card.onclick = () => {
+        if (tool.ext) { window.open(tool.ext, "_blank", "noopener"); return; }
+        location.hash = "#/" + tool.id;
+      };
       grid.appendChild(card);
     });
   }
@@ -632,7 +763,8 @@
 
   function route() {
     const id = location.hash.replace("#/", "");
-    const valid = TOOLS.some((tool) => tool.id === id);
+    const found = TOOLS.find((tool) => tool.id === id);
+    const valid = !!found && !found.ext;
     $("#homeView").style.display = valid ? "none" : "block";
     $$(".tool-view").forEach((v) => v.classList.remove("active"));
     if (valid) {
@@ -973,6 +1105,56 @@
       `${t("Total pembayaran", "Total payment")}: ${fmt(Math.round(total))}<br />` +
       `${t("Total bunga", "Total interest")}: ${fmt(Math.round(total - P))}`;
     out.classList.add("show");
+  };
+
+  /* ---------- 13. Quick notes ---------- */
+  const notesEl = $("#notesText");
+  notesEl.value = localStorage.getItem("st_notes") || "";
+  function notesInfo() {
+    const v = notesEl.value;
+    const words = v.trim() ? v.trim().split(/\s+/).length : 0;
+    $("#notesInfo").textContent = `${words} ${t("kata", "words")} · ${v.length} ${t("karakter", "characters")} — ${t("tersimpan otomatis ✓", "auto-saved ✓")}`;
+  }
+  notesEl.addEventListener("input", () => {
+    localStorage.setItem("st_notes", notesEl.value);
+    notesInfo();
+  });
+  $("#notesCopy").onclick = () => copyText(notesEl.value);
+  $("#notesDownload").onclick = () => {
+    if (!notesEl.value) { toast(t("Catatan masih kosong", "Note is empty")); return; }
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([notesEl.value], { type: "text/plain" }));
+    a.download = "catatan.txt";
+    a.click();
+    URL.revokeObjectURL(a.href);
+  };
+  $("#notesClear").onclick = () => {
+    notesEl.value = "";
+    localStorage.removeItem("st_notes");
+    notesInfo();
+    toast(t("Catatan dihapus", "Note cleared"));
+  };
+  notesInfo();
+
+  /* ---------- 14. WhatsApp link ---------- */
+  let waLink = "";
+  $("#waGen").onclick = () => {
+    let num = $("#waPhone").value.replace(/\D/g, "");
+    const out = $("#waResult");
+    if (!num) { toast(t("Masukkan nomor WhatsApp dulu", "Enter a WhatsApp number first")); return; }
+    if (num.startsWith("0")) num = "62" + num.slice(1);
+    const msg = $("#waMsg").value.trim();
+    waLink = "https://wa.me/" + num + (msg ? "?text=" + encodeURIComponent(msg) : "");
+    out.innerHTML = `<a href="${waLink}" target="_blank" rel="noopener" style="color:#ffc9cf;word-break:break-all">${waLink}</a>`;
+    out.classList.add("show");
+  };
+  $("#waCopy").onclick = () => {
+    if (!waLink) { toast(t("Buat link dulu", "Generate a link first")); return; }
+    copyText(waLink);
+  };
+  $("#waOpen").onclick = () => {
+    if (!waLink) { toast(t("Buat link dulu", "Generate a link first")); return; }
+    window.open(waLink, "_blank", "noopener");
   };
 
   /* ---------- Init ---------- */
